@@ -1,10 +1,9 @@
 import os
 import sys
-import numpy as np
 import pandas as pd
 
+from util.metricer import calculate_metrics
 from config import DIRS_TREE, EVALUATION_COMBS, PREDICTION_COLUMNS, SUMMARY_COLUMNS, RC_FPR_LABEL, SEP, MODEL_NAME, SUMMARY_PATH
-from sklearn.metrics import average_precision_score, roc_auc_score, roc_curve
 
 
 model_id = sys.argv[1]
@@ -45,23 +44,10 @@ for root, _, files in os.walk(DIRS_TREE[1] % model_id):
         for cv_model in preds:
             metrics = []
             y_true = preds[cv_model]["y_true"]
-            y_predict = preds[cv_model]["y_pred"]
-            size = preds[cv_model]["pos"] + preds[cv_model]["neg"]
+            y_pred = preds[cv_model]["y_pred"]
 
-            # ROC AUC
-            roc_auc = roc_auc_score(y_true, y_predict)
-
-            # PR AUC
-            pr_auc = average_precision_score(y_true, y_predict)
-
-            # Rc|FPR
             # TODO: optimize
-            fpr, tpr, _ = roc_curve(y_true, y_predict)
-
-            order_of_magnitude = int(np.log10(1 / size))
-            fpr_interp = [np.power(10.0, i) for i in range(-1, order_of_magnitude - 1, -1)]
-
-            tpr = np.interp(fpr_interp, fpr, tpr)
+            roc_auc, pr_auc, tpr = calculate_metrics(y_true, y_pred)
 
             # Merging metrics
             metrics.extend([
