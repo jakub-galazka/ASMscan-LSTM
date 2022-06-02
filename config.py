@@ -164,26 +164,28 @@ TST_FOLDS = {
 # represent
 WHITE_SMOKE = "whitesmoke"
 LIGHT_GRAY = "lightgray"
-DARK_BLUE = "darkblue"
-DARK_GREEN = "darkgreen"
-DARK_GOLDEN_ROD = "darkgoldenrod"
+BLUE = "blue"
+GREEN = "green"
+RED = "red"
+COLORS_CYCLE = [BLUE, GREEN, RED, "tan", "orange", "gold", "cyan", "navy", "purple", "magenta", "orchid"] # min 11 needed
 
 REP_COMBS = [
-    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_domain", DARK_BLUE), RepFold("fass_ntm_domain", DARK_GREEN), RepFold("fass_ctm_domain", DARK_GOLDEN_ROD)],
-    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif", DARK_BLUE), RepFold("fass_ntm_motif", DARK_GREEN), RepFold("fass_ctm_motif", DARK_GOLDEN_ROD)],
-    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif", DARK_BLUE), RepFold("bass_ntm_motif_env5", DARK_GREEN), RepFold("bass_ntm_motif_env10", DARK_GOLDEN_ROD)],
-    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ntm_motif", DARK_BLUE), RepFold("fass_ntm_motif_env5", DARK_GREEN), RepFold("fass_ntm_motif_env10", DARK_GOLDEN_ROD)],
-    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ctm_motif", DARK_BLUE), RepFold("fass_ctm_motif_env5", DARK_GREEN), RepFold("fass_ctm_motif_env10", DARK_GOLDEN_ROD)],
-    # TODO: specific class representation
-    # [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_domain", sep="_")],
-    # [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif", class_id_len=7)],
-    # [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif_env5", class_id_len=7)],
-    # [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif_env10", class_id_len=7)],
-    # [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ntm_motif", sep="_")],
-    # [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ntm_motif_env5", sep="_")],
-    # [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ntm_motif_env10", sep="_")]
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_domain", BLUE), RepFold("fass_ntm_domain", GREEN), RepFold("fass_ctm_domain", RED)],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif", BLUE), RepFold("fass_ntm_motif", GREEN), RepFold("fass_ctm_motif", RED)],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif", BLUE), RepFold("bass_ntm_motif_env5", GREEN), RepFold("bass_ntm_motif_env10", RED)],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ntm_motif", BLUE), RepFold("fass_ntm_motif_env5", GREEN), RepFold("fass_ntm_motif_env10", RED)],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ctm_motif", BLUE), RepFold("fass_ctm_motif_env5", GREEN), RepFold("fass_ctm_motif_env10", RED)],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_domain", cut_type_rule="_")],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif", cut_type_rule=7)],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif_env5", cut_type_rule=7)],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("bass_ntm_motif_env10", cut_type_rule=7)],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ntm_motif", cut_type_rule="_")],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ntm_motif_env5", cut_type_rule="_")],
+    [RepFold("PB40_1z20_clu50_sampled10000", WHITE_SMOKE), RepFold("NLReff", LIGHT_GRAY), RepFold("fass_ntm_motif_env10", cut_type_rule="_")]
 ]
 
+MARKER_SIZE = 5
+TYPE_SEPARATION_LABEL = "type"
 REP_MODEL = MODEL_NAME + "comb%s"
 
 #----------------------------------------------------------------------------------------------------

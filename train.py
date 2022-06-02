@@ -21,7 +21,7 @@ for dir in DIRS_TREE:
 tokenizer = load_tokenizer()
 
 for fold_no in range(1, FOLDS_QUANTITY + 1):
-    print("____________________ Training Fold No %d ____________________" % fold_no)
+    print("____________________ Training Fold No %d / %d ____________________" % (fold_no, FOLDS_QUANTITY))
 
     # Loading data
     x_trn, y_trn, x_val, y_val = load_trn_val_fold(fold_no)
@@ -42,7 +42,7 @@ for fold_no in range(1, FOLDS_QUANTITY + 1):
     i = tf.keras.layers.Input(shape=(T,), name="input")
     x = tf.keras.layers.Embedding(V, D, name="embedding")(i)
     x = tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(M, return_sequences=True), name="bidirectional")(x)
-    x = tf.keras.layers.LSTM((3 * M), name=LAYER_BEFORE_CLASSIF_NAME)(x)
+    x = tf.keras.layers.LSTM((4 * M), name=LAYER_BEFORE_CLASSIF_NAME)(x)
     x = tf.keras.layers.Dense(1, activation="sigmoid", name="dense")(x)
     model = tf.keras.models.Model(i, x, name=MODEL_NAME)
 

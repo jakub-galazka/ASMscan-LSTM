@@ -1,15 +1,10 @@
 class RepFold:
 
-    def __init__(self, name, color, separate=False, rule=False):
+    def __init__(self, name, color=None, cut_type_rule=None):
         self.name = name
         self.color = color
-        self.separate = separate
-        self.rule = rule
+        self.cut_type_rule = cut_type_rule
 
     def setScope(self, scope):
         self.scope = scope
-
-    def get_class(self, id):
-        if type(self.rule) == int:
-            return id[:self.rule]
         

@@ -20,7 +20,9 @@ T = config.getParam("T")
 tokenizer = load_tokenizer()
 
 # Predicting for each test fold
-for key in TST_FOLDS:
+for key_no, key in enumerate(TST_FOLDS):
+    print("____________________ Predicting Test Fold No %d / %d ____________________" % ((key_no + 1), len(TST_FOLDS)))
+
     # Result holders
     y_pred_frag_s = []
 
