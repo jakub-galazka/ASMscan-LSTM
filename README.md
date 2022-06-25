@@ -1,5 +1,5 @@
-# ASMscan (work in progress...)
-Study of the application of deep recursive LSTM neural networks for the detection of amyloid motifs.
+# ASMscan-LSTM (work in progress...)
+Study of the application of deep recursive LSTM neural networks for the detection of amyloid signaling motifs.
 
 ## Build with
 * Python 3.10.4
