@@ -5,19 +5,18 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 from cycler import cycler
-from datetime import datetime
-from sklearn.manifold import TSNE
+from util.tsne import tsne_2d
 from util.model_config import ModelConfig
 from util.tokenizer import load_tokenizer
 from util.ploter import config_plot, save_plot
-from config import REP_COMBS, DATA_PREDICTION_PATH, REP_MODEL, SEP, PREDICTION_COLUMNS, MODEL_PATH, LAYER_BEFORE_CLASSIF_NAME, COLORS_CYCLE, MARKER_SIZE, TYPE_SEPARATION_LABEL, REPRESENTATION_PATH
+from config import REP_COMBS, DATA_PREDICTION_PATH, SEP, PREDICTION_COLUMNS, MODEL_PATH, LAYER_BEFORE_CLASSIF_NAME, COLORS_CYCLE, MARKER_SIZE, TYPE_SEPARATION_LABEL, REPRESENTATION_PATH, comb_model_name
 
 
 model_id = sys.argv[1]
-seed = int(datetime.timestamp(datetime.now()))
 
 # Loading model config
 config = ModelConfig(model_id)
+MODEL_NAME = config.getParam("model_name")
 FOLDS_QUANTITY = config.getParam("folds_quantity")
 T = config.getParam("T")
 
@@ -26,14 +25,14 @@ tokenizer = load_tokenizer()
 
 # Generating representation for each rep combination
 for comb_no, comb in enumerate(REP_COMBS):
-    print("____________________ Representing Comb No %d / %d ____________________" % ((comb_no + 1), len(REP_COMBS)))
+    print("____________________ Representing Comb No. %d / %d ____________________" % ((comb_no + 1), len(REP_COMBS)))
 
     # Collecting representations for every fold in rep combination 
     rep = []
     types = []
     for fold in comb:
         # Loading data (from comb model -> significant frags)
-        df = pd.read_csv(DATA_PREDICTION_PATH % (model_id, fold.name + "." + (REP_MODEL % "".join(str(i) for i in range(1, FOLDS_QUANTITY + 1)))), sep=SEP)
+        df = pd.read_csv(DATA_PREDICTION_PATH % (model_id, fold.name + "." + comb_model_name(MODEL_NAME, FOLDS_QUANTITY)), sep=SEP)
         frag = df[PREDICTION_COLUMNS[3]]
 
         # Cutting out sequences types from ids
@@ -54,7 +53,7 @@ for comb_no, comb in enumerate(REP_COMBS):
             # Loading random cv model
             model = tf.keras.models.load_model(MODEL_PATH % (model_id, fold_no))
 
-            # Getting model output before classification layer 
+            # Getting model output before classification layer
             layer_before_classif_out = model.get_layer(LAYER_BEFORE_CLASSIF_NAME).output
             fun = tf.keras.backend.function(model.input, layer_before_classif_out)
             temp_rep.append(fun(data_frag))
@@ -65,9 +64,7 @@ for comb_no, comb in enumerate(REP_COMBS):
         fold.setScope(len(temp_rep))
 
     # T-distributed Stochastic Neighbor Embedding
-    tsne = TSNE(random_state=seed, verbose=2).fit_transform(rep)
-    x = tsne[:, 0]
-    y = tsne[:, 1]
+    x, y = tsne_2d(rep);
 
     # Plotting representation
     config_plot(ylim=False, size_scale=2, turn_of_default_style=True)
@@ -110,7 +107,7 @@ for comb_no, comb in enumerate(REP_COMBS):
             rep_name += TYPE_SEPARATION_LABEL + "."
             j += scope
         else:
-            plt.scatter(x[i:i+scope], y[i:i+scope], label=fold_name, c=fold.color, s=MARKER_SIZE)
+            plt.scatter(x[i:i+scope], y[i:i+scope], label=fold_name, s=MARKER_SIZE)
         
         rep_name += fold_name + "."
         i += scope

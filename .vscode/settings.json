@@ -15,6 +15,7 @@
         "fasta",
         "figsize",
         "iloc",
+        "imshow",
         "interp",
         "keras",
         "lightgray",
@@ -37,7 +38,9 @@
         "whitesmoke",
         "xlabel",
         "xscale",
+        "xticks",
         "ylabel",
-        "ylim"
+        "ylim",
+        "yticks"
     ]
 }

@@ -10,7 +10,7 @@ def config_plot(xlabel=None, ylabel=None, ylim=True, size_scale=1, turn_of_defau
     if ylabel != None: plt.ylabel(ylabel)
     if ylim: plt.ylim([-.05, 1.05])
 
-def save_plot(path):
-    plt.legend()
+def save_plot(path, legend=True):
+    if legend: plt.legend()
     plt.savefig(path)
     plt.show()

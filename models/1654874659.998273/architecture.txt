@@ -1,0 +1,26 @@
+Model: "bass-model"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ input (InputLayer)             [(None, 40)]         0           []                               
+                                                                                                  
+ embedding (Embedding)          (None, 40, 8)        208         ['input[0][0]']                  
+                                                                                                  
+ bi-lstm-forward (LSTM)         (None, 40, 33)       5544        ['embedding[0][0]']              
+                                                                                                  
+ bi-lstm-backward (LSTM)        (None, 40, 33)       8844        ['bi-lstm-forward[0][0]']        
+                                                                                                  
+ last-return-seqs (Concatenate)  (None, 40, 66)      0           ['bi-lstm-forward[0][0]',        
+                                                                  'bi-lstm-backward[0][0]']       
+                                                                                                  
+ bi-lstm-out (Lambda)           (None, 66)           0           ['last-return-seqs[0][0]']       
+                                                                                                  
+ before-classif (Dropout)       (None, 66)           0           ['bi-lstm-out[0][0]']            
+                                                                                                  
+ dense (Dense)                  (None, 1)            67          ['before-classif[0][0]']         
+                                                                                                  
+==================================================================================================
+Total params: 14,663
+Trainable params: 14,663
+Non-trainable params: 0
+__________________________________________________________________________________________________

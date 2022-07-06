@@ -6,13 +6,14 @@ import tensorflow as tf
 from util.model_config import ModelConfig
 from util.tokenizer import load_tokenizer
 from util.data_loader import load_tst_fold
-from config import TST_FOLDS, PREDICTION_COLUMNS, SEP, DATA_PREDICTION_PATH, MODEL_PATH, MODEL_NAME
+from config import TST_FOLDS, PREDICTION_COLUMNS, SEP, DATA_PREDICTION_PATH, MODEL_PATH, comb_model_name
 
 
 model_id = sys.argv[1]
 
 # Loading model config
 config = ModelConfig(model_id)
+MODEL_NAME = config.getParam("model_name")
 FOLDS_QUANTITY = config.getParam("folds_quantity")
 T = config.getParam("T")
 
@@ -21,7 +22,7 @@ tokenizer = load_tokenizer()
 
 # Predicting for each test fold
 for key_no, key in enumerate(TST_FOLDS):
-    print("____________________ Predicting Test Fold No %d / %d ____________________" % ((key_no + 1), len(TST_FOLDS)))
+    print("____________________ Predicting Test Fold No. %d / %d ____________________" % ((key_no + 1), len(TST_FOLDS)))
 
     # Result holders
     y_pred_frag_s = []
@@ -106,4 +107,4 @@ for key_no, key in enumerate(TST_FOLDS):
     y_pred_frag = np.mean(y_pred_frag_s, axis=0)
 
     # Saving prediction for comb cv models
-    predict(key + "." + MODEL_NAME + "comb" + "".join(str(i) for i in range(1, FOLDS_QUANTITY + 1)))
+    predict(key + "." + comb_model_name(MODEL_NAME, FOLDS_QUANTITY))
