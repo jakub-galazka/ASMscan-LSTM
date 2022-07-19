@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import random
+from unicodedata import name
 import numpy as np
 import tensorflow as tf
 
@@ -68,12 +69,9 @@ for fold_no in range(1, FOLDS_QUANTITY + 1):
         
         *fun = {sum, mul, concat (default), ave, None}
     '''
-    x = tf.keras.layers.LSTM(M, return_sequences=True, name="bi-lstm-forward")(x)                       # forward_output = (1..n)
-    y = tf.keras.layers.LSTM(M, return_sequences=True, go_backwards=True, name="bi-lstm-backward")(x)   # backward_output = (n..1)
-    x = tf.keras.layers.Concatenate(axis=2, name=LAST_RETURN_SEQS_LAYER_NAME)([x, y])
-    x = tf.keras.layers.Lambda(lambda x: x[:,-1], name="bi-lstm-out")(x)
-    x = tf.keras.layers.Dropout(.75, name=LAYER_BEFORE_CLASSIF_NAME)(x)
-    x = tf.keras.layers.Dense(1, activation="sigmoid", name="dense")(x)
+    x = tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(M, return_sequences=True), name="bi-lstm")(x)
+    x = tf.keras.layers.Lambda(lambda x: x[:,-1], name="bi-lstm-last-hs")(x)
+    x = tf.keras.layers.Dense(1, activation="sigmoid", name="classif")(x)
     model = tf.keras.models.Model(i, x, name=MODEL_NAME)
 
     model.compile(

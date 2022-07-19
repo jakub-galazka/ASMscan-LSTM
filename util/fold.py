@@ -1,4 +1,4 @@
-class RepFold:
+class Fold:
 
     def __init__(self, name, cut_type_rule=None):
         self.name = name

@@ -1,4 +1,4 @@
-from util.rep_fold import RepFold
+from util.fold import Fold
 
 #----------------------------------------------------------------------------------------------------
 
@@ -9,11 +9,8 @@ FOLDS_QUANTITY = 1
 T = 40                  # Input sequence size / max sequence length
 V = 26                  # Vocabulary size
 EPOCHS = 30
-D = 11                  # Embedding dimensionality
-M = 14                  # Hidden / Cell state dimensionality
-
-LAST_RETURN_SEQS_LAYER_NAME = "last-return-seqs"
-LAYER_BEFORE_CLASSIF_NAME = "before-classif"
+D = 8                   # Embedding dimensionality
+M = 2                   # Hidden / Cell state dimensionality
 
 #----------------------------------------------------------------------------------------------------
 
@@ -25,7 +22,7 @@ DIRS_TREE = [
     OUT_FOLDER + "/%s/data/prediction",
     OUT_FOLDER + "/%s/data/summary",
     OUT_FOLDER + "/%s/plot/history",
-    OUT_FOLDER + "/%s/plot/representation"
+    OUT_FOLDER + "/%s/plot/tsne"
 ]
 
 # data_loader paths
@@ -50,7 +47,7 @@ DATA_PREDICTION_PATH = DIRS_TREE[1] + "/%s.csv"
 SUMMARY_PATH = DIRS_TREE[2] + "/%s.csv"
 
 PLOT_HISTORY_PATH = DIRS_TREE[3] + "/%s.png"
-REPRESENTATION_PATH = DIRS_TREE[4] + "/%s.png"
+PLOT_TSNE_PATH = DIRS_TREE[4] + "/%s.png"
 
 #----------------------------------------------------------------------------------------------------
 
@@ -168,26 +165,24 @@ TST_FOLDS = {
 
 #----------------------------------------------------------------------------------------------------
 
-# represent
-REP_COMBS = [
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("bass_ntm_domain"), RepFold("fass_ntm_domain"), RepFold("fass_ctm_domain")],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("bass_ntm_motif"), RepFold("fass_ntm_motif"), RepFold("fass_ctm_motif")],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("bass_ntm_motif"), RepFold("bass_ntm_motif_env5"), RepFold("bass_ntm_motif_env10")],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("fass_ntm_motif"), RepFold("fass_ntm_motif_env5"), RepFold("fass_ntm_motif_env10")],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("fass_ctm_motif"), RepFold("fass_ctm_motif_env5"), RepFold("fass_ctm_motif_env10")],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("bass_ntm_domain", cut_type_rule="_")],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("bass_ntm_motif", cut_type_rule=7)],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("bass_ntm_motif_env5", cut_type_rule=7)],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("bass_ntm_motif_env10", cut_type_rule=7)],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("fass_ntm_motif", cut_type_rule="_")],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("fass_ntm_motif_env5", cut_type_rule="_")],
-    [RepFold("PB40_1z20_clu50_sampled10000"), RepFold("NLReff"), RepFold("fass_ntm_motif_env10", cut_type_rule="_")]
+# tsne
+TSNE_COMBS = [
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("bass_ntm_domain"), Fold("fass_ntm_domain"), Fold("fass_ctm_domain")],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("bass_ntm_motif"), Fold("fass_ntm_motif"), Fold("fass_ctm_motif")],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("bass_ntm_motif"), Fold("bass_ntm_motif_env5"), Fold("bass_ntm_motif_env10")],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("fass_ntm_motif"), Fold("fass_ntm_motif_env5"), Fold("fass_ntm_motif_env10")],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("fass_ctm_motif"), Fold("fass_ctm_motif_env5"), Fold("fass_ctm_motif_env10")],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("bass_ntm_domain", cut_type_rule="_")],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("bass_ntm_motif", cut_type_rule=7)],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("bass_ntm_motif_env5", cut_type_rule=7)],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("bass_ntm_motif_env10", cut_type_rule=7)],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("fass_ntm_motif", cut_type_rule="_")],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("fass_ntm_motif_env5", cut_type_rule="_")],
+    [Fold("PB40_1z20_clu50_sampled10000"), Fold("NLReff"), Fold("fass_ntm_motif_env10", cut_type_rule="_")]
 ]
 
 COLORS_CYCLE = ["whitesmoke", "lightgray", "blue", "green", "red", "tan", "orange", "gold", "cyan", "navy", "purple", "magenta", "orchid"] # min 13 needed
 MARKER_SIZE = 5
-
-TYPE_SEPARATION_LABEL = "type"
 
 #----------------------------------------------------------------------------------------------------
 
